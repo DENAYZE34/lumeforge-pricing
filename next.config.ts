@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
   basePath,
   assetPrefix: basePath,
   images: { unoptimized: isGithubPages },
+  env: {
+    // next/image does not prefix `src` with basePath when unoptimized,
+    // so local <Image> usages prepend this manually.
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
 };
 
 export default nextConfig;

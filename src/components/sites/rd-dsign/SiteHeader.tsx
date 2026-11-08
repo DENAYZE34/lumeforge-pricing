@@ -14,7 +14,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/brand/lumeforge-logo.jpg"
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/lumeforge-logo.jpg`}
             alt="Lumeforge"
             width={32}
             height={32}

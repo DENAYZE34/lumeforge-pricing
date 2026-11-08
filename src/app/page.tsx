@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-black px-6 text-center text-white">
       <Image
-        src="/brand/lumeforge-logo.jpg"
+        src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/lumeforge-logo.jpg`}
         alt="Lumeforge"
         width={56}
         height={56}
