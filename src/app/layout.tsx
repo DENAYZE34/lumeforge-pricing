@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Website Clone",
-  description: "Pixel-perfect website clone",
+  title: "Lumeforge",
+  description:
+    "Lumeforge — web development, AI automation, custom MCP servers, video production and tech strategy.",
 };
 
 export default function RootLayout({
