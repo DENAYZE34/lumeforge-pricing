@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/sites/rd-dsign/SiteHeader";
 import { SiteFooter } from "@/components/sites/rd-dsign/SiteFooter";
 import { PromoBanner } from "@/components/sites/rd-dsign/PromoBanner";
-import { PricingSection } from "@/components/sites/rd-dsign/PricingSection";
+import { PricingCards } from "@/components/sites/rd-dsign/PricingCards";
+import { PricingCalculator } from "@/components/sites/rd-dsign/PricingCalculator";
 import { FeatureMatrix } from "@/components/sites/rd-dsign/FeatureMatrix";
 import { FaqSection } from "@/components/sites/rd-dsign/FaqSection";
 
@@ -20,7 +21,8 @@ export default function PricingPage() {
         <div className="mx-auto max-w-6xl px-6 pt-10">
           <PromoBanner />
         </div>
-        <PricingSection />
+        <PricingCards />
+        <PricingCalculator />
         <FeatureMatrix />
         <FaqSection />
       </main>

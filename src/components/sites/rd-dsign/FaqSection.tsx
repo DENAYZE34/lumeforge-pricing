@@ -34,11 +34,18 @@ export function FaqSection() {
                   )}
                 />
               </button>
-              {open && (
-                <p className="px-5 pb-4 text-sm leading-relaxed text-white/60">
-                  {item.answer}
-                </p>
-              )}
+              <div
+                className={cn(
+                  "grid transition-[grid-template-rows] duration-300 ease-out",
+                  open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                )}
+              >
+                <div className="overflow-hidden">
+                  <p className="px-5 pb-4 text-sm leading-relaxed text-white/60">
+                    {item.answer}
+                  </p>
+                </div>
+              </div>
             </div>
           );
         })}
