@@ -341,9 +341,10 @@ export const matrixCategories: MatrixCategory[] = [
     ],
   },
   {
-    id: "video-engines",
-    title: "Видео-движки",
+    id: "video-models",
+    title: "Video Models",
     rows: [
+      { label: "Параллельных генераций (concurrent jobs)", values: ["1", "3", "8"] },
       { label: "Text-to-Video генерация", values: [true, true, true] },
       { label: "Image-to-Video анимация", values: [false, true, true] },
       { label: "Video-to-Video рестайлинг", values: [false, false, true] },
@@ -356,26 +357,6 @@ export const matrixCategories: MatrixCategory[] = [
         info: "Интерполяция достраивает промежуточные кадры AI-моделью, повышая частоту кадров без повторной съёмки или рендера.",
       },
       { label: "Движки генерации", values: [false, "Seedance 2.0", "Seedance 2.0 + Veo 3.1 + Kling 3.0"] },
-    ],
-  },
-  {
-    id: "character-style",
-    title: "Персонажи и стиль",
-    rows: [
-      {
-        label: "Soul ID — консистентность персонажа",
-        values: [false, true, true],
-        info: "Референс-изображения лица/объекта фиксируются как «якорь», чтобы персонаж оставался узнаваемым во всех сгенерированных кадрах и ракурсах.",
-      },
-      { label: "Лимит референс-изображений", values: ["2 фото", "4 фото", "без лимита"] },
-      { label: "Обучение кастомного стиля (fine-tuning)", values: [false, false, true] },
-      { label: "Сохранение фирменной цветовой палитры бренда", values: [false, true, true] },
-    ],
-  },
-  {
-    id: "director-tools",
-    title: "Инструменты режиссёра",
-    rows: [
       { label: "Управление виртуальной камерой (pan/tilt/zoom/dolly)", values: [false, true, true] },
       { label: "Настройки объектива (фокусное расстояние, ГРИП)", values: [false, true, true] },
       {
@@ -387,9 +368,25 @@ export const matrixCategories: MatrixCategory[] = [
     ],
   },
   {
-    id: "audio-lipsync",
-    title: "Аудио и липсинк",
+    id: "image-models",
+    title: "Image Models",
     rows: [
+      { label: "Параллельных генераций (concurrent jobs)", values: ["1", "4", "8"] },
+      { label: "AI-генерация изображений (баннеры, посты, продуктовые фото)", values: [false, true, true] },
+      { label: "Апскейл изображений до 4K", values: [false, true, true] },
+      {
+        label: "Product Placement — замена объектов/фона на фото",
+        values: [false, false, true],
+        info: "Продукт или объект на готовом фото переносится в новую сцену/фон без пересъёмки — используется для каталогов и рекламных баннеров.",
+      },
+      { label: "Перенос фирменного стиля бренда на изображение", values: [false, false, true] },
+    ],
+  },
+  {
+    id: "lipsync-studio",
+    title: "Lipsync Studio",
+    rows: [
+      { label: "Параллельных генераций (concurrent jobs)", values: ["1", "2", "6"] },
       { label: "Генерация речи (TTS)", values: [false, true, true] },
       { label: "Клонирование голоса", values: [false, false, true] },
       { label: "Липсинк под готовую аудиодорожку", values: [false, true, true] },
@@ -406,12 +403,19 @@ export const matrixCategories: MatrixCategory[] = [
     ],
   },
   {
-    id: "commercial-rights",
-    title: "Права и интеграции",
+    id: "character-system",
+    title: "Character / System",
     rows: [
+      {
+        label: "Soul ID — консистентность персонажа",
+        values: [false, true, true],
+        info: "Референс-изображения лица/объекта фиксируются как «якорь», чтобы персонаж оставался узнаваемым во всех сгенерированных кадрах и ракурсах.",
+      },
+      { label: "Лимит референс-изображений", values: ["2 фото", "4 фото", "без лимита"] },
+      { label: "Обучение кастомного стиля (fine-tuning)", values: [false, false, true] },
+      { label: "Сохранение фирменной цветовой палитры бренда", values: [false, true, true] },
       { label: "Кредиты в месяц", values: ["10", "40", "без лимита"] },
       { label: "Приоритет очереди", values: ["Standard", "Fast", "Priority GPU"] },
-      { label: "Параллельные генерации", values: ["1", "3", "10"] },
       { label: "Перенос остатка кредитов на следующий месяц", values: [false, false, true] },
       { label: "Коммерческая лицензия на результаты", values: [false, true, true] },
       { label: "Доступ к API / кастомным MCP-серверам", values: [false, "по запросу", "включён"] },
