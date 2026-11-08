@@ -142,12 +142,14 @@ export interface MatrixRow {
 }
 
 export interface MatrixCategory {
+  id: string;
   title: string;
   rows: MatrixRow[];
 }
 
 export const matrixCategories: MatrixCategory[] = [
   {
+    id: "web-dev",
     title: "Веб-разработка",
     rows: [
       { label: "Страниц в проекте", values: ["до 3", "до 10", "без лимита"] },
@@ -157,16 +159,28 @@ export const matrixCategories: MatrixCategory[] = [
     ],
   },
   {
-    title: "AI-автоматизация и MCP",
+    id: "ai-automation",
+    title: "AI-автоматизация",
     rows: [
-      { label: "Кастомные MCP-серверы", values: [false, "1 сервер", "без лимита"] },
       { label: "Workflow-автоматизации в месяц", values: ["2", "10", "без лимита"] },
       { label: "Интеграции с внешними API", values: ["1", "5", "без лимита"] },
       { label: "Поддержка собственных LLM-агентов", values: [false, true, true] },
+      { label: "Оркестрация мультиагентных сценариев", values: [false, false, true] },
     ],
   },
   {
-    title: "Аудио / видео продакшн",
+    id: "mcp-servers",
+    title: "MCP-серверы",
+    rows: [
+      { label: "Кастомные MCP-серверы", values: [false, "1 сервер", "без лимита"] },
+      { label: "Поддержка Claude Code / Claude Desktop", values: [true, true, true] },
+      { label: "Документация и передача конфигурации", values: [false, true, true] },
+      { label: "Доработка существующих серверов", values: [false, false, true] },
+    ],
+  },
+  {
+    id: "video-audio",
+    title: "Видео / аудио",
     rows: [
       { label: "Разделение дорожек (UVR5) в месяц", values: [false, "10 треков", "без лимита"] },
       { label: "Скрипты DaVinci Resolve", values: [false, true, true] },
@@ -175,6 +189,7 @@ export const matrixCategories: MatrixCategory[] = [
     ],
   },
   {
+    id: "business",
     title: "Бизнес и сопровождение",
     rows: [
       { label: "Время ответа поддержки", values: ["48 ч", "24 ч", "4 ч, приоритет"] },

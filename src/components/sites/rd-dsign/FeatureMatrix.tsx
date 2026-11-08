@@ -19,7 +19,7 @@ export function FeatureMatrix() {
 
       <div className="space-y-10">
         {matrixCategories.map((category) => (
-          <div key={category.title}>
+          <div key={category.id} id={category.id} className="scroll-mt-24">
             <h3 className="mb-4 text-xl font-bold text-white">{category.title}</h3>
             <div className="overflow-hidden rounded-2xl border border-white/10">
               <div className="grid grid-cols-4 bg-white/5 px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white/40">

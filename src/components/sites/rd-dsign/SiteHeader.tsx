@@ -2,10 +2,10 @@ import Image from "next/image";
 import { withBasePath } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { label: "Веб-разработка", href: "/pricing#matrix" },
-  { label: "AI-автоматизация", href: "/pricing#matrix" },
-  { label: "MCP-серверы", href: "/pricing#matrix" },
-  { label: "Видео / аудио", href: "/pricing#matrix" },
+  { label: "Веб-разработка", href: "/pricing#web-dev" },
+  { label: "AI-автоматизация", href: "/pricing#ai-automation" },
+  { label: "MCP-серверы", href: "/pricing#mcp-servers" },
+  { label: "Видео / аудио", href: "/pricing#video-audio" },
 ];
 
 export function SiteHeader() {
