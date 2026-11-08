@@ -286,6 +286,7 @@ export const businessPlans: BusinessPlan[] = [
 export interface MatrixRow {
   label: string;
   values: [string | boolean, string | boolean, string | boolean];
+  info?: string;
 }
 
 export interface MatrixCategory {
@@ -318,7 +319,11 @@ export const matrixCategories: MatrixCategory[] = [
       { label: "Чат-боты и AI-ассистенты", values: [false, true, true] },
       { label: "Поддержка собственных LLM-агентов", values: [false, true, true] },
       { label: "RAG-пайплайны на своих данных", values: [false, "по запросу", true] },
-      { label: "Оркестрация мультиагентных сценариев", values: [false, false, true] },
+      {
+        label: "Оркестрация мультиагентных сценариев",
+        values: [false, false, true],
+        info: "Несколько AI-агентов работают над задачей совместно — один исследует, другой пишет код, третий проверяет результат, под единым контролем.",
+      },
       { label: "Мониторинг и алерты по автоматизациям", values: [false, false, true] },
     ],
   },
@@ -340,10 +345,18 @@ export const matrixCategories: MatrixCategory[] = [
     title: "Видео / аудио",
     rows: [
       { label: "Генерация видео Seedance 2.0 в месяц", values: [false, "5 клипов", "без лимита"] },
-      { label: "Разделение дорожек (UVR5) в месяц", values: [false, "10 треков", "без лимита"] },
+      {
+        label: "Разделение дорожек (UVR5) в месяц",
+        values: [false, "10 треков", "без лимита"],
+        info: "Ultimate Vocal Remover 5 — AI-модель, которая отделяет вокал от инструментала в готовом треке: нужна для ремиксов, караоке-версий и чистки архивных записей.",
+      },
       { label: "Скрипты DaVinci Resolve", values: [false, true, true] },
       { label: "Автоматический монтаж по шаблону", values: [false, "по запросу", true] },
-      { label: "Кастомные DSP-плагины (C++/JUCE)", values: [false, false, true] },
+      {
+        label: "Кастомные DSP-плагины (C++/JUCE)",
+        values: [false, false, true],
+        info: "Собственный аудиоплагин (VST/AU) под ваш звуковой эффект или обработку, написанный на C++ с фреймворком JUCE — работает в любой DAW как нативный инструмент.",
+      },
       { label: "Цветокоррекция и монтаж под ключ", values: [false, "по запросу", true] },
       { label: "Мастеринг и финальный рендер 4K", values: [false, false, true] },
     ],

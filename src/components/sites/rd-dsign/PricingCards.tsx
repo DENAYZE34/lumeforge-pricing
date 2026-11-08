@@ -13,41 +13,65 @@ import {
 
 const VISIBLE_ITEMS = 3;
 
+function FeatureItem({ item }: { item: PlanFeatureGroup["items"][number] }) {
+  return (
+    <li className="flex items-center justify-between gap-2 text-sm">
+      <span className={cn("flex items-center gap-2", !item.included && "text-white/30 line-through")}>
+        {item.included ? (
+          <Check className="h-4 w-4 shrink-0 text-[#ff3d1a]" />
+        ) : (
+          <X className="h-4 w-4 shrink-0 text-white/20" />
+        )}
+        {item.label}
+      </span>
+      {item.tag && (
+        <span className="shrink-0 rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-white/40">
+          {item.tag}
+        </span>
+      )}
+    </li>
+  );
+}
+
 function FeatureGroup({ group }: { group: PlanFeatureGroup }) {
   const [expanded, setExpanded] = useState(false);
   const hasMore = group.items.length > VISIBLE_ITEMS;
-  const visibleItems = expanded ? group.items : group.items.slice(0, VISIBLE_ITEMS);
-  const hiddenCount = group.items.length - VISIBLE_ITEMS;
+  const visibleItems = group.items.slice(0, VISIBLE_ITEMS);
+  const hiddenItems = group.items.slice(VISIBLE_ITEMS);
 
   return (
     <div className="border-t border-white/10 pt-4">
       <p className="text-xs font-semibold uppercase tracking-wide text-white/40">{group.title}</p>
       <ul className="mt-2 space-y-2">
         {visibleItems.map((item) => (
-          <li key={item.label} className="flex items-center justify-between gap-2 text-sm">
-            <span className={cn("flex items-center gap-2", !item.included && "text-white/30 line-through")}>
-              {item.included ? (
-                <Check className="h-4 w-4 shrink-0 text-[#ff3d1a]" />
-              ) : (
-                <X className="h-4 w-4 shrink-0 text-white/20" />
-              )}
-              {item.label}
-            </span>
-            {item.tag && (
-              <span className="shrink-0 rounded-full border border-white/10 px-2 py-0.5 text-[10px] text-white/40">
-                {item.tag}
-              </span>
-            )}
-          </li>
+          <FeatureItem key={item.label} item={item} />
         ))}
       </ul>
+
+      {hasMore && (
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows] duration-300 ease-out",
+            expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          )}
+        >
+          <div className="overflow-hidden">
+            <ul className="space-y-2 pt-2">
+              {hiddenItems.map((item) => (
+                <FeatureItem key={item.label} item={item} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
       {hasMore && (
         <button
           onClick={() => setExpanded((v) => !v)}
           className="mt-2 flex items-center gap-1 text-xs font-semibold text-white/50 hover:text-white"
         >
           <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", expanded && "rotate-180")} />
-          {expanded ? "Свернуть" : `+${hiddenCount} ещё`}
+          {expanded ? "Свернуть" : `+${hiddenItems.length} ещё`}
         </button>
       )}
     </div>

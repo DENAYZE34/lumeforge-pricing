@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { matrixCategories, plans } from "@/config/pricing";
+import { matrixCategories, plans, type MatrixRow } from "@/config/pricing";
+import { Tooltip } from "./Tooltip";
 
 function Cell({ value }: { value: string | boolean }) {
   if (typeof value === "boolean") {
@@ -16,9 +17,27 @@ function Cell({ value }: { value: string | boolean }) {
   return <span className="text-white/80">{value}</span>;
 }
 
+function RowLabel({ row }: { row: MatrixRow }) {
+  return (
+    <span className="flex items-center gap-1.5 text-white/80">
+      {row.label}
+      {row.info && <Tooltip text={row.info} />}
+    </span>
+  );
+}
+
+interface IndicatorRect {
+  left: number;
+  width: number;
+}
+
 export function FeatureMatrix() {
   const [activeId, setActiveId] = useState(matrixCategories[0].id);
   const active = matrixCategories.find((c) => c.id === activeId) ?? matrixCategories[0];
+
+  const tabRowRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const [indicator, setIndicator] = useState<IndicatorRect | null>(null);
 
   // Header nav links (/pricing#web-dev etc.) land here with a hash instead of
   // clicking a tab, so sync the active tab to the hash on mount and whenever
@@ -38,23 +57,55 @@ export function FeatureMatrix() {
     };
   }, []);
 
+  // Measures the active tab button relative to the tab row so the fiery
+  // highlight pill can slide to it instead of snapping instantly.
+  useEffect(() => {
+    function measure() {
+      const row = tabRowRef.current;
+      const button = buttonRefs.current.get(activeId);
+      if (!row || !button) return;
+      const rowRect = row.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
+      setIndicator({ left: buttonRect.left - rowRect.left, width: buttonRect.width });
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [activeId]);
+
+  function selectCategory(id: string) {
+    setActiveId(id);
+    if (window.location.hash !== `#${id}`) {
+      window.history.replaceState(null, "", `#${id}`);
+    }
+  }
+
   return (
     <section id="matrix" className="mx-auto max-w-6xl px-6 py-16">
       <h2 className="mb-2 text-3xl font-black text-white">Сравнение тарифов</h2>
       <p className="mb-8 text-white/50">Полная детализация по каждому направлению</p>
 
       <div className="sticky top-16 z-30 -mx-6 bg-black/95 px-6 pb-4 pt-4 backdrop-blur-md">
-        <div className="flex flex-wrap gap-2 border-b border-white/10 pb-4">
+        <div ref={tabRowRef} className="relative flex flex-wrap gap-2 border-b border-white/10 pb-4">
+          {indicator && (
+            <span
+              className="absolute left-0 top-0 h-[38px] rounded-full bg-gradient-to-r from-[#ff6a1f] to-[#ff3d1a] transition-[transform,width] duration-300 ease-out"
+              style={{ width: indicator.width, transform: `translateX(${indicator.left}px)` }}
+            />
+          )}
           {matrixCategories.map((category) => (
             <button
               key={category.id}
               id={category.id}
-              onClick={() => setActiveId(category.id)}
+              ref={(el) => {
+                if (el) buttonRefs.current.set(category.id, el);
+              }}
+              onClick={() => selectCategory(category.id)}
               className={cn(
-                "scroll-mt-28 rounded-full px-4 py-2 text-sm font-semibold transition",
+                "scroll-mt-28 relative z-10 rounded-full border px-4 py-2 text-sm font-semibold transition-colors",
                 activeId === category.id
-                  ? "bg-gradient-to-r from-[#ff6a1f] to-[#ff3d1a] text-black"
-                  : "border border-white/10 text-white/60 hover:border-white/30 hover:text-white"
+                  ? "border-transparent text-black"
+                  : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"
               )}
             >
               {category.title}
@@ -80,7 +131,7 @@ export function FeatureMatrix() {
               index % 2 === 0 ? "bg-transparent" : "bg-white/[0.02]"
             }`}
           >
-            <span className="text-white/80">{row.label}</span>
+            <RowLabel row={row} />
             {row.values.map((value, i) => (
               <span key={i} className="flex justify-center">
                 <Cell value={value} />
