@@ -5,7 +5,7 @@ const NAV_LINKS = [
   { label: "Веб-разработка", href: "/pricing#web-dev" },
   { label: "AI-автоматизация", href: "/pricing#ai-automation" },
   { label: "MCP-серверы", href: "/pricing#mcp-servers" },
-  { label: "Видео / аудио", href: "/pricing#video-audio" },
+  { label: "Видео-продакшн", href: "/pricing#video-engines" },
 ];
 
 export function SiteHeader() {

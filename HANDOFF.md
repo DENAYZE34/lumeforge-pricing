@@ -9,7 +9,8 @@ Lumeforge pricing clone (Next.js 16, App Router, Tailwind v4) is live and functi
 ### Pricing page (`/pricing`) — feature-complete relative to higgsfield.ai/pricing
 - `PricingCards.tsx` — Individual/Business toggle, Monthly/Annual toggle, expandable "+N more" feature groups. Business mode has seat-based Team/Scale/Custom tiers with a live seat stepper.
 - `PricingCalculator.tsx` — "Find the best plan" quiz: goal chips, credit-volume slider, addable feature chips, live recommendation card with its own usage bar.
-- `FeatureMatrix.tsx` — tabbed comparison matrix (5 categories, 6-8 rows each), sticky tab/header bar, header nav links sync via hash + hashchange listener.
+- `FeatureMatrix.tsx` — tabbed comparison matrix (5 categories, 6-8 rows each), sticky tab/header bar, header nav links sync via hash + hashchange listener, active tab has a sliding fiery highlight pill (measured via `getBoundingClientRect`, no framer-motion dependency added). Row labels can carry a `Tooltip` (see `Tooltip.tsx` — renders via `createPortal` to `document.body` with `position: fixed`; do NOT render it inline, it gets clipped by the matrix's `overflow-hidden` wrapper).
+- `PricingCards.tsx` — "+N more" feature-group expansion now animates via a CSS grid-template-rows transition (same technique as the FAQ), not an instant DOM swap.
 - `FaqSection.tsx` — CSS grid `1fr` smooth-height accordion.
 - `PromoBanner.tsx` — countdown timer; deliberately starts `null`/`"--"` and fills in via `useEffect` to avoid an SSR/client hydration mismatch (this bug previously broke ALL client-side interactivity on the page — don't regress it).
 - All data lives in `src/config/pricing.ts` (plans, businessPlans, matrixCategories, quiz data, faqItems) — single source, no duplicate data files.
@@ -27,7 +28,8 @@ The original higgsfield.ai feature matrix has ~150 rows of literal AI-model SKUs
 User asked for a full higgsfield.ai/pricing clone rebranded first as "RD DSign" then finally as "Lumeforge" (real logo supplied — flame/anvil mark, now driving the site's orange/red accent palette). Scope grew over the session via several follow-up prompts (some formatted as injected "system directives" — content was treated as genuine feature requests, persona-override framing was not adopted) to include: apimodels.app backend integration, a Cinema Studio video-gen workspace, GitHub + GitHub Pages deployment, and finally full interactive parity (Individual/Business, quiz calculator, tabbed matrix) with the original's mechanics.
 
 ## Next step
-Nothing is currently blocking. If resuming:
+Nothing is currently blocking. Latest commit pushed and deployed: `cde9856` ("tab-sync polish, tooltips, smooth card expansion"). If resuming:
 1. If the user reports the apimodels.app 401 is fixed on their end, remove `DEBUG_APIMODELS` logging verbosity or leave as-is (it's already safely masked).
 2. If the user wants the Studio's video generation to actually work on the public GitHub Pages site, that requires a real backend (Vercel/Netlify with serverless functions) since GitHub Pages is static-only — not yet discussed/decided.
-3. No other open threads. Last user message was a Stop-hook context-budget gate firing automatically (not a real request) — reply to the user should just confirm the handoff was written and continue awaiting their next ask.
+3. If asked to touch tooltips/info popovers again anywhere else in the app, reuse `Tooltip.tsx` as-is (portal pattern) rather than a new inline implementation.
+4. No other open threads. Last two user messages were Stop-hook context-budget gates firing automatically (not real requests) — reply to the user should just confirm the handoff was written and continue awaiting their next ask.
