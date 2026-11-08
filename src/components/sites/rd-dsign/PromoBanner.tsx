@@ -22,16 +22,25 @@ function format(ms: number) {
 }
 
 export function PromoBanner() {
-  const [remaining, setRemaining] = useState(() => getNextMidnightDiff());
+  // Starts null so server and first client render match exactly (both render
+  // "--"); the real countdown is computed after mount to avoid a hydration
+  // mismatch from new Date() differing between build time and page load.
+  const [remaining, setRemaining] = useState<number | null>(null);
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setRemaining((prev) => (prev <= 1000 ? getNextMidnightDiff() : prev - 1000));
-    }, 1000);
-    return () => clearInterval(id);
+    const tick = () =>
+      setRemaining((prev) => (prev === null || prev <= 1000 ? getNextMidnightDiff() : prev - 1000));
+    const kickoff = setTimeout(tick, 0);
+    const id = setInterval(tick, 1000);
+    return () => {
+      clearTimeout(kickoff);
+      clearInterval(id);
+    };
   }, []);
 
-  const { hours, minutes, seconds } = format(remaining);
+  const { hours, minutes, seconds } = remaining === null
+    ? { hours: "--", minutes: "--", seconds: "--" }
+    : format(remaining);
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top,_#3d1406,_#07070a_70%)] px-6 py-10 text-center sm:px-10">

@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
+import { withBasePath } from "@/lib/utils";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-black px-6 text-center text-white">
       <Image
-        src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/lumeforge-logo.jpg`}
+        src={withBasePath("/brand/lumeforge-logo.jpg")}
         alt="Lumeforge"
         width={56}
         height={56}
@@ -20,12 +20,12 @@ export default function Home() {
       <p className="max-w-xl text-white/50">
         Cinematic video production and technical strategy for teams that ship.
       </p>
-      <Link
-        href="/pricing"
+      <a
+        href={withBasePath("/pricing")}
         className="rounded-full bg-gradient-to-r from-[#ff6a1f] to-[#ff3d1a] px-6 py-3 text-sm font-bold text-black"
       >
         View pricing
-      </Link>
+      </a>
     </main>
   );
 }
